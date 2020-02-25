@@ -1,1 +1,1 @@
-# todo-go
+# TodoList Go version
