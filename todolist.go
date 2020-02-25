@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/rs/cors"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -120,5 +121,9 @@ func main() {
 
 	router.HandleFunc("/todo-completed", GetCompletedItems).Methods("GET")
 	router.HandleFunc("/todo-incompleted", GetIncompletedItems).Methods("GET")
-	http.ListenAndServe(":8964", router)
+
+	handler := cors.New(cors.Options{
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+	}).Handler(router)
+	http.ListenAndServe(":8964", handler)
 }
